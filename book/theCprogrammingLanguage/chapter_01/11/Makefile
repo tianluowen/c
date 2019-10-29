@@ -2,8 +2,11 @@ OBJ=exe
 
 all:$(OBJ)
 
-$(OBJ):main.c
-	@gcc -o $(OBJ) main.c
+$(OBJ):main.o
+	@gcc $^ -o $@
+
+main.o:main.c
+	@gcc -c $^ -o $@ $(debug)
 
 clean:
 	@rm -f *.o $(OBJ)
