@@ -1,6 +1,6 @@
 OBJ=exe
 
-all:$(OBJ)
+all:$(OBJ) horizon
 
 $(OBJ):main.o
 	@gcc $^ -o $@
@@ -8,5 +8,11 @@ $(OBJ):main.o
 main.o:main.c
 	@gcc -c $^ -o $@ $(debug)
 
+horizon:mainhorizon.o
+	@gcc $^ -o $@
+
+mainhorizon.o:mainhorizon.c
+	@gcc -c $^ -o $@ $(debug)
+
 clean:
-	@rm -f *.o $(OBJ)
+	@rm -f *.o $(OBJ) horizon
