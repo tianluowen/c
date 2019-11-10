@@ -31,13 +31,13 @@ int main(int argc, char *argv[])
     scanf("%d", &y);
     printf("\n");
 
-    printf("x 二进制为 :");
-    binary(x);
-    printf("\n");
     printf("y 二进制为 :");
     binary(y);
     printf("\n");
-    printf("替换结果   :");
+    printf("x 二进制为 :");
+    binary(x);
+    printf("\n");
+    printf("替换结果为 :");
     binary(setbits(x, p, n, y));
     printf("\n");
 
