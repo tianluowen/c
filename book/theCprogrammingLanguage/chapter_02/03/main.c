@@ -3,7 +3,6 @@
  * 目的：将十六进制字符串转化为数字
  */
 
-
 #include <stdio.h>
 
 #define MAXLINE 1000 
@@ -14,7 +13,8 @@ int main(int argc, char *argv[])
     int i = 0;
     int sum = 0;
 
-    gets(s);  //从键盘输入要转换的十六进制数字
+    printf("请输入要转换的十六进制数: ");     //从键盘输入要转换的十六进制数字
+    scanf("%s", s);
     if ('0' == s[i])
     {
         ++i;
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    printf("这个数的大小=%d\n", sum);
+    printf("十六进制数:%s 转换为十进制为:%d\n", s, sum);
 
     return 0;
 }
@@ -57,7 +57,7 @@ int htoi(char *s)
     int hexdigit, i, inhex, n;
 
     i = 0;
-    if (s[i] == '0'')
+    if (s[i] == '0')
     {
         ++i;
     }
