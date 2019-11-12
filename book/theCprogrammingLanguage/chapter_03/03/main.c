@@ -48,3 +48,4 @@ void expande(char s1[], char s2[])
 
     s2[j] = '\0';
 }
+
