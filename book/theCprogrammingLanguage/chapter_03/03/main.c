@@ -1,6 +1,6 @@
 /*
- * 目的：编写函数expand
  * 时间：2018年5月8日16:32:11
+ * 目的：编写函数expand
  */
 
 #include <stdio.h>
@@ -32,7 +32,7 @@ void expande(char s1[], char s2[])
 
     while ((c = s1[i++]) != '\0') //不到结束符
     {
-        if (s1[i] == '-' && s1[i++] >= c)
+        if (s1[i] == '-' && s1[i+1] >= c)
         {
            i++; 
            while (c < s1[i])
