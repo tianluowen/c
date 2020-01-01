@@ -1,18 +1,24 @@
+CC=clang
+OBJ=main errone errtwo errthr errfou 
+RM=rm -f
+
+all:$(OBJ)
+
 main:main.c
-	@gcc -o main main.c
+	$(CC) -o main main.c
 
 errone:errone.c
-	gcc -o errone errone.c
+	$(CC) -o errone errone.c
 
 errtwo:errtwo.c
-	@gcc -o errtwo errtwo.c
+	$(CC) -o errtwo errtwo.c
 
 errthr:errthr.c
-	gcc -o errthr errthr.c
+	$(CC) -o errthr errthr.c
 
 errfou:errfou.c
-	gcc -o errfou errfou.c
+	$(CC) -o errfou errfou.c
 
 clean:
-	@rm -f main errone errtwo errfou errthr *.o 
+	$(RM) $(OBJ) *.o 
 

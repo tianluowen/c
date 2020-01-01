@@ -1,12 +1,14 @@
+CC=clang
+RM=rm -f
 OBJ=exe
 
 all:$(OBJ)
 
 $(OBJ):main.o
-	@gcc $^ -o $@
+	$(CC) $^ -o $@
 
 main.o:main.c
-	@gcc -c $^ -o $@ $(debug) -std=c99
+	$(CC) -c $^ -o $@ $(debug)
 
 clean:
-	@rm -f *.o $(OBJ)
+	$(RM) *.o $(OBJ)

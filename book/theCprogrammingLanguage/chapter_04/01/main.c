@@ -16,9 +16,9 @@ int main(void)
     char t[100];   
 
     printf("请输入文本字符串：");
-    scanf("%s", &s);
+    scanf("%s", s);
     printf("请输入要查找的字符串：");
-    scanf("%s", &t);
+    scanf("%s", t);
 
     n = strrindex(s, t);
 

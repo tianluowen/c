@@ -21,8 +21,8 @@ int main(int argc, char *argv[])
     printf("signed short max=%d\tsigned short min=%d\n", SHRT_MAX, SHRT_MIN);
     printf("\n");
 
-    printf("usigned long max=%lu\tusigned long min=%lu\n", ULONG_MAX, 0);
-    printf("signed long max=%d\tsigned long min=%d\n", LONG_MAX, LONG_MIN);
+    printf("usigned long max=%lu\tusigned long min=%d\n", ULONG_MAX, 0);
+    printf("signed long max=%ld\tsigned long min=%ld\n", LONG_MAX, LONG_MIN);
     printf("\n");
 
     return 0;
