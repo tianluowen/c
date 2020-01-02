@@ -37,7 +37,7 @@ int main(void)
 /* strrindex函数：返回字符串 t 在 s 中最右边的位置，如果s中不包含t，则返回 -1 */
 int strrindex(char s[], char t[])
 {
-    int i, j, k, pos;
+    int i, j, k, pos = -1;
 
     for (i=0; s[i] != '\0'; ++i)
     {
