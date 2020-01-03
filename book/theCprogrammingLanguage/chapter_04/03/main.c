@@ -24,6 +24,9 @@ int main(void)
     double op2;
     char s[MAXOP];
 
+    printf("提示: \n");
+    printf("输入逆波兰式进行计算 eg: 3 5 * 8 +\n");
+
     while ((type = getop(s)) != EOF)
     {
         switch (type)
@@ -56,7 +59,7 @@ int main(void)
                 printf("错误：除数为0");
             break;
         case '\n':
-            printf("%.8g\n", pop());
+            printf("该式的计算结果为: %.8g\n", pop());
             break;
         default:
             printf("错误：未知错误");
@@ -96,7 +99,7 @@ double pop(void)
 int getch(void);
 void ungetch(int);
 
-/*  getop函数：获取下一个运算符或数值操作数  */
+/* getop函数: 获取下一个运算符或数值操作数 */
 int getop(char s[])
 {
     int i, c;

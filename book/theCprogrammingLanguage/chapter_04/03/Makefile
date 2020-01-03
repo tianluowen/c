@@ -5,7 +5,7 @@ OBJ=exe
 all:$(OBJ)
 
 $(OBJ):main.o
-	$(CC) $^ -o $@
+	$(CC) $^ -o $@ -lm
 
 main.o:main.c
 	$(CC) -c $^ -o $@ $(debug)
