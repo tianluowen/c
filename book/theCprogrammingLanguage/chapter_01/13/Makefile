@@ -1,18 +1,20 @@
+CC=clang
 OBJ=exe
+RM=rm -f
 
 all:$(OBJ) horizon
 
 $(OBJ):main.o
-	@gcc $^ -o $@
+	$(CC) $^ -o $@
 
 main.o:main.c
-	@gcc -c $^ -o $@ $(debug)
+	$(CC) -c $^ -o $@ $(debug)
 
 horizon:mainhorizon.o
-	@gcc $^ -o $@
+	$(CC) $^ -o $@
 
 mainhorizon.o:mainhorizon.c
-	@gcc -c $^ -o $@ $(debug)
+	$(CC) -c $^ -o $@ $(debug)
 
 clean:
-	@rm -f *.o $(OBJ) horizon
+	$(RM) *.o $(OBJ) horizon

@@ -52,13 +52,3 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-int htoi(char *s)
-{
-    int hexdigit, i, inhex, n;
-
-    i = 0;
-    if (s[i] == '0')
-    {
-        ++i;
-    }
-}

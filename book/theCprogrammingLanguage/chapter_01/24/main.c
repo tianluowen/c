@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     
     if ((in=fopen("test.c","r")) == NULL)
     {
-        printf("%d\n", in);
+        printf("%d\n", (int)in);
         printf("无法打开此文件\n");
         exit(0);
         

@@ -16,9 +16,9 @@ int main(void)
     char t[100];   
 
     printf("请输入文本字符串：");
-    scanf("%s", &s);
+    scanf("%s", s);
     printf("请输入要查找的字符串：");
-    scanf("%s", &t);
+    scanf("%s", t);
 
     n = strrindex(s, t);
 
@@ -37,7 +37,7 @@ int main(void)
 /* strrindex函数：返回字符串 t 在 s 中最右边的位置，如果s中不包含t，则返回 -1 */
 int strrindex(char s[], char t[])
 {
-    int i, j, k, pos;
+    int i, j, k, pos = -1;
 
     for (i=0; s[i] != '\0'; ++i)
     {
