@@ -17,13 +17,17 @@ int getop(char []);
 void push(double);
 double pop(void);
 void clear(void);
+int is_empty(void);
 
 /*  逆波兰计算器  */
-int main(void)
+int main(int argc, char *argv[])
 {
     int type;
+    int result;
     double op1, op2;
     char s[MAXOP];
+
+    printf("输入eg: 3 5 + 4 *\n");
 
     while ((type = getop(s)) != EOF)
     {
@@ -47,14 +51,14 @@ int main(void)
             if (op2 != 0.0)
                 push(pop() / op2);
             else
-                printf("错误：除数为0");
+                printf("错误：除数为0\n");
             break;
         case '%':
             op2 = pop();
             if (op2 != 0.0)
                 push(fmod(pop(), op2));
             else
-                printf("错误：除数为0");
+                printf("错误：除数为0\n");
             break;
         case 'c':
             clear();
@@ -75,10 +79,16 @@ int main(void)
             push(op2);
             break;
         case '\n':
-            printf("%.8g\n", pop());
-            break;
+            {
+                result = pop();
+                if (!is_empty() && result != 0.0)
+                    printf("%.8g\n", pop());
+                else
+                    printf("输入逆波兰式有误\n");
+                break;
+            }
         default:
-            printf("错误：未知错误");
+            printf("错误：未知错误\n");
             break;
         }   //swith 结束
     }   //while 结束
@@ -98,7 +108,7 @@ void push(double f)
     if (sp < MAXVAL)
         val[sp++] = f;
     else
-        printf("错误：栈满，无法入栈!");
+        printf("错误：栈满，无法入栈!\n");
 }
 
 /*  pop函数：弹出并返回栈顶的值  */
@@ -108,7 +118,7 @@ double pop(void)
         return val[--sp];
     else
     {
-        printf("错误：栈空，无法取值！");
+        printf("错误：栈空，无法取值！\n");
         return 0.0;
     }
 }
@@ -180,7 +190,15 @@ int getch(void)     /*  取一个字符，可能是缓冲字符  */
 void ungetch(int c) /*  把字符压回到输入中*/
 {
     if (bufp >= BUFSIZE)
-        printf("错误：缓冲区已满！");
+        printf("错误：缓冲区已满！\n");
     else
         buf[bufp++] = c;
+}
+
+int is_empty(void)
+{
+    if (sp != 0)
+        return 0;
+    else
+        return 1;
 }
