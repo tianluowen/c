@@ -23,11 +23,11 @@ int is_empty(void);
 int main(int argc, char *argv[])
 {
     int type;
-    int result;
+    double result;
     double op1, op2;
     char s[MAXOP];
 
-    printf("输入eg: 3 5 + 4 *\n");
+    printf("输入逆波兰式计算 eg: 3 5 + 4 *\n");
 
     while ((type = getop(s)) != EOF)
     {
@@ -62,6 +62,7 @@ int main(int argc, char *argv[])
             break;
         case 'c':
             clear();
+            printf("\n");
             break;
         case '?':
             op2 = pop();
@@ -80,11 +81,32 @@ int main(int argc, char *argv[])
             break;
         case '\n':
             {
+                if (is_empty())
+                {
+                    printf("输入逆波兰式计算 eg: 3 5 + 4 *\n");
+                    break;
+                }
+
+                /* 取出值来判断，如果这个值有问题，则重新放进去, 不影响栈内的原有的数据 */
                 result = pop();
-                if (!is_empty() && result != 0.0)
-                    printf("%.8g\n", pop());
-                else
+                if (!is_empty() && result != 0)
+                {
                     printf("输入逆波兰式有误\n");
+                    printf("请输入清栈指令后重试: c\n");
+                    push(result);
+                }
+                else if (result != 0)
+                {
+                    printf("%.8g\n\n", result);
+                    if (is_empty())
+                    {
+                        printf("输入逆波兰式计算 eg: 3 5 + 4 *\n");
+                    }
+                    else
+                    {
+                        printf("逆波兰式输入不完整，请继续输入: ");
+                    }
+                }
                 break;
             }
         default:
@@ -95,7 +117,6 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-
 
 #define MAXVAL 100     /*  栈 val 的最大深度   */
 
