@@ -1,22 +1,27 @@
 /************************************************************************/
 /*
-时间: 2020-01-18 19:16
-目的: 增加逆波兰计算器增加 清空栈，交换栈顶两个值，打印栈顶元素，但不取出
+时间: 2020-01-18 19:25
+目的: 增加逆波兰计算器 sin、exp、pow 等库函数操作，使用 <math.h>
 */
 /************************************************************************/
 
-#include <stdio.h>
+#define _CRT_SECURE_NO_WARNINGS    //关闭输入 scanf 的安全检查
+
+#include <stdio.h>      /* 标准输入输出函数 */
 #include <stdlib.h>     /* 为了使用 atod() 函数 */
-#include <ctype.h>
+#include <ctype.h>      /* atof 函数，字符串转换为实数的函数*/
 #include <math.h>       /* fmod 函数 */
+#include <string.h>     /* 字符串判断相等函数 */
 
 #define MAXOP   100     /* 操作数或运算符最大的长度 */
 #define NUMBER  '0'     /* 标识找到一个数 */
+#define NAME    'n'     /* 标识找到一个函数名 */
 
-int getop(char []);
-void push(double);
-double pop(void);
-void clear(void);
+int getop(char []); /* 获取输入的函数 */
+void push(double);  /* 压栈 */
+double pop(void);   /* 出栈 */
+void clear(void);   /* 清空栈 */
+void mathfnc(char []);   /* 处理数学函数 */
 int is_empty(void);
 
 /*  逆波兰计算器  */
@@ -35,6 +40,9 @@ int main(int argc, char *argv[])
         {
         case NUMBER:
             push(atof(s));
+            break;
+        case NAME:
+            mathfnc(s);
             break;
         case '+':
             push(pop() + pop());
@@ -66,7 +74,7 @@ int main(int argc, char *argv[])
             break;
         case '?':
             op2 = pop();
-            printf("%.8g\n", op2);
+            printf("%.8f\n", op2);
             push(op2);
         case 's':
             op1 = pop();
@@ -116,6 +124,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
+
 #define MAXVAL 100     /*  栈 val 的最大深度   */
 
 int sp = 0;            /*  下一个空闲栈的位置  */
@@ -161,6 +170,18 @@ int getop(char s[])
         NULL;
     s[1] = '\0';
     i = 0;
+    if (islower(c))
+    {
+        while (islower(s[++i] = c = getch()))
+            NULL;
+        s[i] = '\0';
+        if (c != EOF)
+            ungetch(c);
+        if (strlen(s) > 1)
+            return NAME;
+        else
+            return c;
+    }
     if (!isdigit(c) && c != '.' && c != '-') /* 不是数 */
         return c;
     if (c == '-')
@@ -212,6 +233,29 @@ void ungetch(int c) /*  把字符压回到输入中*/
         printf("错误：缓冲区已满！\n");
     else
         buf[bufp++] = c;
+}
+
+/* 处理数学函数 */
+void mathfnc(char s[])
+{
+    double op2;
+    if (strcmp(s, "sin" ) == 0)
+    {
+        push(sin(pop()));
+    }
+    else if (strcmp(s, "cos") == 0)
+    {
+        push(cos(pop()));
+    }
+    else if (strcmp(s, "pow") == 0)
+    {
+        op2 = pop();
+        push(pow(pop(), op2));
+    }
+    else
+    {
+        printf("错误：输入错误，没有定义的操作！\n");
+    }
 }
 
 int is_empty(void)

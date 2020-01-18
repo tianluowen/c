@@ -16,11 +16,13 @@
 int getop(char[]);
 void push(double);
 double pop(void);
+int is_empty(void);
 
 /* 逆波兰计算器 */
 int main(void)
 {
     int type;
+    double result;
     double op2;
     char s[MAXOP];
 
@@ -63,7 +65,32 @@ int main(void)
             }
             break;
         case '\n':
-            printf("该式的计算结果为: %.8g\n", pop());
+            if (is_empty())
+            {
+                printf("输入逆波兰式计算 eg: 3 5 + 4 *\n");
+                break;
+            }
+
+            /* 取出值来判断，如果这个值有问题，则重新放进去, 不影响栈内的原有的数据 */
+            result = pop();
+            if (!is_empty() && result != 0)
+            {
+                printf("输入逆波兰式有误\n");
+                printf("请输入清栈指令后重试: c\n");
+                push(result);
+            }
+            else if (result != 0)
+            {
+                printf("%.8g\n\n", result);
+                if (is_empty())
+                {
+                    printf("输入逆波兰式计算 eg: 3 5 + 4 *\n");
+                }
+                else
+                {
+                    printf("逆波兰式输入不完整，请继续输入: ");
+                }
+            }
             break;
         default:
             printf("错误：未知错误\n");
@@ -164,4 +191,12 @@ void ungetch(int c) /*  把字符压回到输入中*/
         printf("错误：缓冲区已满!\n");
     else
         buf[bufp++] = c;
+}
+
+int is_empty(void)
+{
+    if (sp != 0)
+        return 0;
+    else
+        return 1;
 }
