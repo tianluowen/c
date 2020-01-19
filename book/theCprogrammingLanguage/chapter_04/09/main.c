@@ -1,6 +1,6 @@
 /*
-* 时间: 2020-01-18 21:48
-* 目的: 能把字符串压缩到输入中
+* 时间: 2020-01-19 22:17
+* 目的: 使得 getch 和 ungetch 可以正确处理 EOF
 */
 
 #define _CRT_SECURE_NO_WARNINGS    //关闭输入 scanf 的安全检查
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 {
     int i, type, var = 0;
     double result;
-    double op1, op2, v;
+    double op1, op2, v = 0;
     char s[MAXOP];
     double variable[26];
 
@@ -60,14 +60,14 @@ int main(int argc, char *argv[])
             if (op2 != 0.0)
                 push(pop() / op2);
             else
-                printf("错误：除数为0\n");
+                printf("错误：除数为0");
             break;
         case '%':
             op2 = pop();
             if (op2 != 0.0)
                 push(fmod(pop(), op2));
             else
-                printf("错误：除数为0\n");
+                printf("错误：除数为0");
             break;
         case '=':
             pop();
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
             else if (type == 'v')
                 push(v);
             else
-                printf("错误：未知错误\n");
+                printf("错误：未知错误");
             break;
         }   //swith 结束
         var = type;
@@ -150,7 +150,7 @@ void push(double f)
     if (sp < MAXVAL)
         val[sp++] = f;
     else
-        printf("错误：栈满，无法入栈!\n");
+        printf("错误：栈满，无法入栈!");
 }
 
 /*  pop函数：弹出并返回栈顶的值  */
@@ -160,7 +160,7 @@ double pop(void)
         return val[--sp];
     else
     {
-        printf("错误：栈空，无法取值！\n");
+        printf("错误：栈空，无法取值！");
         return 0.0;
     }
 }
@@ -232,10 +232,10 @@ int getop(char s[])
 }
 
 
-#define BUFSIZE 100     
+#define BUFSIZE 100
 
-char buf[BUFSIZE];  /*  用于 ungetch 函数的缓冲区*/
-int bufp = 0;       /*  buf 中下一个空闲位置  */
+int buf[BUFSIZE];       /*  用于 ungetch 函数的缓冲区*/
+int bufp = 0;
 
 int getch(void)     /*  取一个字符，可能是缓冲字符  */
 {
@@ -245,7 +245,7 @@ int getch(void)     /*  取一个字符，可能是缓冲字符  */
 void ungetch(int c) /*  把字符压回到输入中*/
 {
     if (bufp >= BUFSIZE)
-        printf("错误：缓冲区已满！\n");
+        printf("错误：缓冲区已满！");
     else
         buf[bufp++] = c;
 }
@@ -278,7 +278,7 @@ void mathfnc(char s[])
     }
     else
     {
-        printf("错误：输入错误，没有定义的操作！\n");
+        printf("错误：输入错误，没有定义的操作！");
     }
 }
 

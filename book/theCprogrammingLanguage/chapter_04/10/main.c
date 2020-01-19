@@ -1,6 +1,6 @@
 /*
-* 时间: 2020-01-18 21:48
-* 目的: 能把字符串压缩到输入中
+* 时间: 2020-01-19 23:08
+* 目的: 使用 getline_self 函数代替 getch 和 ungetch 函数
 */
 
 #define _CRT_SECURE_NO_WARNINGS    //关闭输入 scanf 的安全检查
@@ -14,20 +14,25 @@
 #define MAXOP   100     /* 操作数或运算符最大的长度 */
 #define NUMBER  '0'     /* 标识找到一个数 */
 #define NAME    'n'     /* 标识找到一个函数名 */
+#define MAXLINE 100     /* 最长输入行 */
 
 int getop(char[]);  /* 获取输入的函数 */
 void push(double);  /* 压栈 */
 double pop(void);   /* 出栈 */
 void clear(void);   /* 清空栈 */
 void mathfnc(char[]);   /* 处理数学函数 */
+int getline_self(char line[], int limit);  /* 接收每一行的输入 */
 int is_empty(void);
 
+int li = 0;  /* 输入行的索引 */
+char line[MAXLINE];
+
 /*  逆波兰计算器  */
-int main(int argc, char *argv[])
+int main(void)
 {
     int i, type, var = 0;
     double result;
-    double op1, op2, v;
+    double op1, op2, v = 0;
     char s[MAXOP];
     double variable[26];
 
@@ -60,14 +65,14 @@ int main(int argc, char *argv[])
             if (op2 != 0.0)
                 push(pop() / op2);
             else
-                printf("错误：除数为0\n");
+                printf("错误：除数为0");
             break;
         case '%':
             op2 = pop();
             if (op2 != 0.0)
                 push(fmod(pop(), op2));
             else
-                printf("错误：除数为0\n");
+                printf("错误：除数为0");
             break;
         case '=':
             pop();
@@ -129,7 +134,7 @@ int main(int argc, char *argv[])
             else if (type == 'v')
                 push(v);
             else
-                printf("错误：未知错误\n");
+                printf("错误：未知错误");
             break;
         }   //swith 结束
         var = type;
@@ -150,7 +155,7 @@ void push(double f)
     if (sp < MAXVAL)
         val[sp++] = f;
     else
-        printf("错误：栈满，无法入栈!\n");
+        printf("错误：栈满，无法入栈!");
 }
 
 /*  pop函数：弹出并返回栈顶的值  */
@@ -160,7 +165,7 @@ double pop(void)
         return val[--sp];
     else
     {
-        printf("错误：栈空，无法取值！\n");
+        printf("错误：栈空，无法取值！");
         return 0.0;
     }
 }
@@ -172,26 +177,32 @@ void clear(void)
 }
 
 
-int getch(void);    /* 获取一个字符 */
-void ungetch(int);  /* 字符压回到输入 */
-void ungets(char s[]); /* 字符压回到输入 */
+int getch(void);
+void ungetch(int);
 
 /*  getop函数：获取下一个运算符或数值操作数  */
 int getop(char s[])
 {
     int i, c;
 
-    while ((s[0] = c = getch()) == ' ' || c == '\t')
+    if (line[li] == '\0')
+    {
+        if (getline_self(line, MAXLINE) == 0)
+            return EOF;
+        else
+            li = 0;
+    }
+    while ((s[0] = c = line[li++]) == ' ' || c == '\t')
         NULL;
     s[1] = '\0';
     i = 0;
     if (islower(c))
     {
-        while (islower(s[++i] = c = getch()))
+        while (islower(s[++i] = c = line[li++]))
             NULL;
         s[i] = '\0';
         if (c != EOF)
-            ungetch(c);
+            li--;
         if (strlen(s) > 1)
             return NAME;
         else
@@ -201,31 +212,31 @@ int getop(char s[])
         return c;
     if (c == '-')
     {
-        if (isdigit(c = getch()) || c == '.')
+        if (isdigit(c = line[li++]) || c == '.')
         {
             s[++i] = c;                      /* 负数 */
         }
         else
         {
             if (c != EOF)
-                ungetch(c);                 /* 减号 */
+                li--;                 /* 减号 */
             return '-';
         }
     }
     if (isdigit(c))   /*  收集整数部分   */
     {
-        while (isdigit(s[++i] = c = getch()))
+        while (isdigit(s[++i] = c = line[li++]))
             NULL;
     }
     if (c == '.')    /*   收集小数部分   */
     {
-        while (isdigit(s[++i] = c = getch()))
+        while (isdigit(s[++i] = c = line[li++]))
             NULL;
     }
     s[i] = '\0';
     if (c != EOF)
     {
-        ungetch(c);
+        li--;
     }
 
     return NUMBER;
@@ -234,7 +245,7 @@ int getop(char s[])
 
 #define BUFSIZE 100     
 
-char buf[BUFSIZE];  /*  用于 ungetch 函数的缓冲区*/
+int buf[BUFSIZE];  /*  用于 ungetch 函数的缓冲区*/
 int bufp = 0;       /*  buf 中下一个空闲位置  */
 
 int getch(void)     /*  取一个字符，可能是缓冲字符  */
@@ -245,19 +256,10 @@ int getch(void)     /*  取一个字符，可能是缓冲字符  */
 void ungetch(int c) /*  把字符压回到输入中*/
 {
     if (bufp >= BUFSIZE)
-        printf("错误：缓冲区已满！\n");
+        printf("错误：缓冲区已满！");
     else
         buf[bufp++] = c;
 }
-
-void ungets(char s[]) /* 字符压回到输入 */
-{
-    int len = strlen(s);
-
-    while (len > 0)
-        ungetch(s[--len]);
-}
-
 
 /* 处理数学函数 */
 void mathfnc(char s[])
@@ -278,8 +280,33 @@ void mathfnc(char s[])
     }
     else
     {
-        printf("错误：输入错误，没有定义的操作！\n");
+        printf("错误：输入错误，没有定义的操作！");
     }
+}
+
+/* getline_self函数：接收从控制台输入的一行 */
+int getline_self(char line[], int maxline)
+{
+    int c, i, j;
+
+    j = 0;
+    for (i=0; (c=getchar())!='\n'&&c!=EOF; ++i)
+    {
+
+        if (i < MAXLINE-2)
+        {
+            line[j] = c;
+            ++j;
+        }
+    }
+    if (c == '\n')
+    {
+        line[j] = c;
+        ++j;
+    }
+    line[j] = '\0';
+
+    return j;
 }
 
 int is_empty(void)

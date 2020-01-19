@@ -1,6 +1,6 @@
 /*
-* 时间: 2020-01-18 21:48
-* 目的: 能把字符串压缩到输入中
+* 时间: 2020-01-19 21:11
+* 目的: 改变 getch 和 ungetch 使得最多只能压回一个字符
 */
 
 #define _CRT_SECURE_NO_WARNINGS    //关闭输入 scanf 的安全检查
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 {
     int i, type, var = 0;
     double result;
-    double op1, op2, v;
+    double op1, op2, v = 0.0;
     char s[MAXOP];
     double variable[26];
 
@@ -232,22 +232,27 @@ int getop(char s[])
 }
 
 
-#define BUFSIZE 100     
-
-char buf[BUFSIZE];  /*  用于 ungetch 函数的缓冲区*/
-int bufp = 0;       /*  buf 中下一个空闲位置  */
+int buf = 0;       /*  用于 ungetch 函数的缓冲区*/
 
 int getch(void)     /*  取一个字符，可能是缓冲字符  */
 {
-    return (bufp > 0) ? buf[--bufp] : getchar();
+    int c;
+
+    if (buf != 0)
+        c = buf;
+    else
+        c = getchar();
+    buf = 0;
+
+    return c;
 }
 
 void ungetch(int c) /*  把字符压回到输入中*/
 {
-    if (bufp >= BUFSIZE)
+    if (buf != 0)
         printf("错误：缓冲区已满！\n");
     else
-        buf[bufp++] = c;
+        buf = c;
 }
 
 void ungets(char s[]) /* 字符压回到输入 */

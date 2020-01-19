@@ -21,7 +21,7 @@ void mathfnc(char[]);   /* 处理数学函数 */
 int is_empty(void);
 
 /*  逆波兰计算器  */
-int main(void)
+int main(int argc, char *argv[])
 {
     int i, type, var = 0;
     double result;
