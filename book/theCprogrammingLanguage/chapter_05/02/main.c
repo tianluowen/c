@@ -15,8 +15,9 @@ int main(int argc, char *argv[])
 {
     float num = 0;
 
+    printf("请输入要转换的浮点型数据: ");
     getfloat(&num);
-    printf("%f\n", num);
+    printf("转换的结果为: %f\n", num);
 
     return 0;
 }

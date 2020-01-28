@@ -11,14 +11,15 @@ int strend(const char *s, const char *t);
 
 int main(int argc, char *argv[])
 {
-    char s[1024] = {'\0'};
-    char t[1024] = {'\0'};
+    char s[1024] = "\0";
+    char t[1024] = "\0";
 
     printf("请输入要检测的字符串 s: ");
     scanf("%s", s);
     printf("请输入要判断 s 末尾存在的字符串 t: ");
     scanf("%s", t);
 
+    printf("\n");
     if (strend(s, t))
         printf("字符串 %s 的末尾 是 字符串 %s\n", s, t);
     else
@@ -37,12 +38,14 @@ int strend(const char *s, const char *t)
         bt++;
     while (*bs)     /* 找到字符串末尾 */
         bs++;
-    for (; *s == *t; s--, t--)
+
+
+    for (; *bs == *bt; bs--, bt--)
     {
         if (t == bt || s == bs)
             break;                  /* 字符串开始 */
     }
-    if (*s == *bt && t == bt && *s != '\0')
+    if (*bs == *bt && t == bt && *bs != '\0')
         return 1;
     else
         return 0;

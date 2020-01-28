@@ -1,6 +1,7 @@
 /*
  * 时间: 2020-01-23 22:10
  * 目的: 习题 5.1 
+ * 描述: 这道题的基本意思是使得 getint 函数可以识别 +012 一类的数据
  */
 
 #include <stdio.h>
@@ -15,8 +16,9 @@ int main(int argc, char *argv[])
 {
     int num = 0;
 
+    printf("请输入要转换的整型数字: ");
     getint(&num);
-    printf("%d\n", num);
+    printf("转换存储的结果为: %d\n", num);
 
     return 0;
 }

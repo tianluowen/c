@@ -11,12 +11,19 @@ void strcat(char *s, char *t);
 
 int main(int argc, char *argv[])
 {
-    char s[50] = "hello";
-    char *t = "world";
+    char s[128] = "\0";
+    char t[128] = "\0";
 
-    printf("%s\t%s\n", s, t);
+
+    printf("请输入源始字符串 s: ");
+    scanf("%s", s);
+    printf("请输入要在 s 后面添加的字符串 t: ");
+    scanf("%s", t);
+
+    printf("\n");
+    printf("字符串 s 为: %s\n字符串 t 为: %s\n", s, t);
     strcat(s, t);
-    printf("%s\n", s);
+    printf("拼接后的字符串为: %s\n", s);
 
     return 0;
 }
