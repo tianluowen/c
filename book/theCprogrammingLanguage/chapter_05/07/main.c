@@ -7,19 +7,28 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAXLINE 10     /* MAXLINE 行的最大长度 */
-#define MAXSTOR 128    /* 空格 */
+#define MAXLINE 128     /* MAXLINE 行的最大长度 */
+#define MAXSTOR 1280    /* 空格 */
 
 /* readlines函数：*/
 int readlines(char *lineptr[], char *linestor, int maxlines);
 int getline_self(char *s, int lim);
+void writelines(char *lineptr[], int nlines);
 
 int main(int argc, char *argv[])
 {
-    char str[MAXLINE][MAXSTOR];
+    char *str[MAXLINE];
     char t[MAXSTOR];
+    int i = 0;
+    int nline = 0;
 
-    readlines((char **)str, t, MAXLINE);
+    printf("请输入测试内容:\n");
+    nline = readlines(str, t, (int)(MAXSTOR / MAXLINE));
+    printf("\n");
+    printf("总共输入 %d 行字符\n", nline);
+
+    printf("这是输入内容: \n");
+    writelines(str, nline);
     
     return 0;
 }
@@ -33,7 +42,7 @@ int readlines(char *lineptr[], char *linestor, int maxlines)
     char *linestop = linestor + MAXSTOR;
 
     nlines = 0;
-    while ((len = getline_self(line, MAXLINE) > 0))
+    while ((len = getline_self(line, MAXLINE)) > 0)
     if (nlines >= maxlines || p+len > linestop)
         return -1;
     else
@@ -57,9 +66,16 @@ int getline_self(char *s, int lim)
     {
         *s++ = c;
     }
-    /* 决定计算不计算输入的回车符号 */
-    /* if (c == '\n') */
-    /*     *s++ = c; */
+    if (c == '\n')
+        *s++ = c;
     *s = '\0';
     return s - t;
 }
+
+/* writelines函数: 输入行 */
+void writelines(char *lineptr[], int nlines)
+{
+    while (nlines-- > 0)
+        printf("%s\n", *lineptr++);
+}
+
