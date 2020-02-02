@@ -41,6 +41,28 @@ void esettab(int argc, char *argv[], char *tab)
             *argv[1] == '-' && *argv[2] == '+')
     {
         pos = atoi(&(*++argv)[1]);
-        inc = atoi();
+        inc = atoi(&(*++argv)[1]);
+        for (i = 1; i <= MAXLINE; i++)
+            if (i != pos)
+                tab[i] = NO;
+            else 
+            {
+                tab[i] = YES;
+                pos += inc;
+            }
+    }
+    else    /* user provided tab stops */
+    {
+       for (i = 1; i <= MAXLINE; i++) 
+           tab[i] = NO;     /* turn off all tab stops */
+       while (--argc > 0)
+       {
+           pos = atoi(*++argv);
+           if (pos > 0 && pos <= MAXLINE)
+               tab[pos] = YES;
+       }
     }
 }
+
+
+
